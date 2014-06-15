@@ -1,19 +1,47 @@
 'use strict';
 
-var Logger = function () {
+var Logger = function (already_logged_hours) {
     var logger = {};
 
-    var hours = 0;
+    var logged_hours = 0;
+
+    function translateTimeStringToNumber(timeString) {
+        var timeParts, hours, minutes;
+
+        if (typeof timeString === 'number')
+            return timeString;
+
+        timeParts = timeString.split(':');
+        hours = parseInt(timeParts[0] || 0, 10);
+        minutes = parseFloat((timeParts[1] || 0) / 60);
+
+        return hours + minutes;
+    }
 
     logger.log = function (additionalHours) {
-        hours += additionalHours;
+
+        if ( ! additionalHours) {
+            return this;
+        }
+
+        additionalHours = translateTimeStringToNumber(additionalHours);
+        logged_hours += additionalHours;
+
+        if (logged_hours < 0) {
+            logged_hours = 0;
+        }
+
+        return this;
     }
 
-    logger.getHours = function () {
-        return hours;
+    logger.get = function () {
+        return logged_hours;
     }
 
-    function Logger() {}
+    //Use a contructor / prototype pattern to create the right object Type
+    function Logger(hours) {
+        this.log(hours);
+    }
     Logger.prototype = logger;
-    return new Logger()
+    return new Logger(already_logged_hours)
 }
