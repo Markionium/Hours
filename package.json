@@ -1,0 +1,17 @@
+{
+  "name": "hour-collector",
+  "version": "0.0.1",
+  "description": "Simple hour logger for my work hours",
+  "private": true,
+  "dependencies": {
+    "pg": "3.3.0"
+  },
+  "devDependencies": {
+    "karma": "0.12.x",
+    "karma-jasmine": "0.1.x",
+    "gulp": "~3.8.0",
+    "gulp-karma": "0.0.4",
+    "phantomjs": "~1.9.2-4",
+    "karma-phantomjs-launcher": "~0.1.4"
+  }
+}
