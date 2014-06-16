@@ -14,8 +14,9 @@ describe('Logger', function () {
         expect(logger.get()).toBe(1);
     });
 
-    it('should substract an hour on a negative integer', function () {
+    it('should subtract an hour on a negative integer', function () {
         var logger = Logger(4);
+
         logger.log(-1);
 
         expect(logger.get()).toBe(3);
@@ -33,7 +34,7 @@ describe('Logger', function () {
         expect(logger.get()).toBe(2.25);
     });
 
-    it('should never return a time count go below 0', function(){
+    it('should never return a time count below 0', function(){
         logger.log(-1);
 
         expect(logger.get()).toBe(0);
@@ -44,5 +45,13 @@ describe('Logger', function () {
         logger.log(null);
 
         expect(logger.get()).toBe(0);
+    });
+
+    it('should subtract a negative modifier', function () {
+        var logger = Logger(4);
+
+        logger.log("-:15");
+
+        expect(logger.get()).toBe(3.75);
     });
 });

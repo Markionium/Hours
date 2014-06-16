@@ -3,19 +3,24 @@
 var Logger = function (already_logged_hours) {
     var logger = {};
 
-    var logged_hours = 0;
+    var loggedHours = 0;
 
     function translateTimeStringToNumber(timeString) {
-        var timeParts, hours, minutes;
+        var timeParts, hours, minutes, isNegative;
 
         if (typeof timeString === 'number')
             return timeString;
+
+        if (timeString[0] === "-") {
+            isNegative = true;
+            timeString = timeString.substr(1);
+        }
 
         timeParts = timeString.split(':');
         hours = parseInt(timeParts[0] || 0, 10);
         minutes = parseFloat((timeParts[1] || 0) / 60);
 
-        return hours + minutes;
+        return isNegative ? -1 * (hours + minutes) : hours + minutes;
     }
 
     logger.log = function (additionalHours) {
@@ -25,20 +30,20 @@ var Logger = function (already_logged_hours) {
         }
 
         additionalHours = translateTimeStringToNumber(additionalHours);
-        logged_hours += additionalHours;
+        loggedHours += additionalHours;
 
-        if (logged_hours < 0) {
-            logged_hours = 0;
+        if (loggedHours < 0) {
+            loggedHours = 0;
         }
 
         return this;
     }
 
     logger.get = function () {
-        return logged_hours;
+        return loggedHours;
     }
 
-    //Use a contructor / prototype pattern to create the right object Type
+    //Use a constructor / prototype pattern to create the right object Type
     function Logger(hours) {
         this.log(hours);
     }
